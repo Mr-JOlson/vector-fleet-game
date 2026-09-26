@@ -4,7 +4,7 @@ A projector game for practicing vector addition and projectile motion. Eight shi
 
 Built for [physicsy.com](https://www.physicsy.com/).
 
-Play: [https://www.physicsy.com/Vector-Fleet/](https://www.physicsy.com/Vector-Fleet/)
+Play: [https://www.physicsy.com/vector-fleet-game/](https://www.physicsy.com/vector-fleet-game/)
 
 ## Play
 
@@ -92,11 +92,13 @@ Use the hundredths printed on the board as the inputs. After that, keep full cal
 
 `g = 9.80 m/s²`.
 
+The shell’s horizontal velocity is the muzzle vector plus the wind. It does not include the ship’s own velocity. Current is added only to the ships. The command-line solver in the separate `vector-fleet` repository uses a different setup (g = 9.81, and the firing ship’s velocity is added to the shell). Use this board’s animation as the check for this game.
+
 ## Local setup
 
 ```bash
-git clone https://github.com/Mr-JOlson/Vector-Fleet.git
-cd Vector-Fleet
+git clone https://github.com/Mr-JOlson/vector-fleet-game.git
+cd vector-fleet-game
 python3 -m http.server 8000
 ```
 
