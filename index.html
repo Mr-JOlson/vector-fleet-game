@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Vector Fleet! — a projector game for vector addition and projectile motion." />
+  <meta name="theme-color" content="#0a2348" />
+  <title>Vector Fleet!</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="viewport">
+    <div class="stage" id="stage">
+      <div class="play">
+        <aside class="stats" aria-label="Round statistics">
+          <div id="stats-body"></div>
+        </aside>
+        <div class="field">
+          <canvas id="sea" aria-label="100 meter coordinate grid with eight ships"></canvas>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="dock" id="dock"></div>
+        <div class="actions">
+          <button type="button" id="start">Start</button>
+          <button type="button" id="sound" aria-pressed="false">Sound on</button>
+          <p class="brand">physicsy.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/physics.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/draw.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
