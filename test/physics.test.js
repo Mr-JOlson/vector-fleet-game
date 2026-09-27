@@ -69,23 +69,23 @@ test("an equal opposite heading cancels current", () => {
   assert.equal(P.normalizeDirection(-90), 270);
 });
 
-test("a 15° or 75° shot along +x lands 40.00 m downrange", () => {
+test("a 15° or 75° shot along +x lands 62.50 m downrange", () => {
   for (const elevation of [15, 75]) {
     const velocity = P.projectileVelocity(elevation, 0, { speed: 0, direction: 0 });
     const flight = P.flightTime(elevation);
     const impact = P.projectilePosition({ x: 0, y: 0 }, velocity, flight);
-    assert.ok(Math.abs(impact.x - 40) < 1e-6, `x=${impact.x} at ${elevation}°`);
+    assert.ok(Math.abs(impact.x - 62.5) < 1e-6, `x=${impact.x} at ${elevation}°`);
     assert.ok(Math.abs(impact.y) < 1e-6);
     assert.ok(Math.abs(impact.z) < 1e-6);
     assert.ok(flight < P.ROUND_TIME);
   }
 });
 
-test("the classic 40 m shot hits Blue and a short shot misses", () => {
+test("the classic 62.50 m shot hits Blue and a short shot misses", () => {
   const wind = { speed: 0, direction: 0 };
   const ships = [
     ship({ id: "red", name: "Red" }),
-    ship({ id: "blue", name: "Blue", x: 40, y: 0, color: "#1e88e5" })
+    ship({ id: "blue", name: "Blue", x: 62.5, y: 0, color: "#1e88e5" })
   ];
   const hit = P.detectHits(ships, wind, { red: { elevation: 15, direction: 0 } });
   assert.equal(hit.length, 1);
@@ -266,11 +266,11 @@ test("a solved moving-target shot lands inside the hit window", () => {
 test("a spreadsheet-style solution hits when the shell carries ship velocity", () => {
   const wind = { speed: 1, direction: 0 };
   const ships = [
-    ship({ id: "red", x: 0, y: 0, vx: 2, vy: 0.5 }),
-    ship({ id: "blue", x: 30, y: 16, vx: 0.5, vy: 1 })
+    ship({ id: "red", x: 4, y: -2, vx: 2, vy: 0.5 }),
+    ship({ id: "blue", x: 34, y: 14, vx: 0, vy: 1.5 })
   ];
   const hits = P.detectHits(ships, wind, {
-    red: { elevation: 11.7, direction: 31.46 }
+    red: { elevation: 7.4, direction: 32.11 }
   });
   assert.equal(hits.length, 1);
   assert.equal(hits[0].targetId, "blue");

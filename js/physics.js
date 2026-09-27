@@ -2,12 +2,12 @@
  * Vector Fleet physics.
  *
  * Coordinates are meters. +x is right, +y is up, and 0° points along +x.
- * The water is the square [-50, 50] × [-50, 50].
+ * The water is the square [-100, 100] × [-100, 100].
  *
  * Each ship's displayed vector is its heading, before current.
  * Actual ship velocity = heading + current.
  * A shell's horizontal velocity = muzzle vector + the ship's actual velocity + wind.
- * The muzzle speed is 28 m/s, relative to the ship.
+ * The muzzle speed is 35 m/s, relative to the ship.
  * Elevation is the angle above the horizontal.
  * z = (v sin α) t − ½ g t², with g = 9.80 m/s².
  * An elevated shell returns to the water at t = 2 v sin α / g.
@@ -24,10 +24,10 @@
   }
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   const G = 9.8;
-  const MUZZLE = 28;
+  const MUZZLE = 35;
   const ROUND_TIME = 10;
   const HIT_RADIUS = 1;
-  const FIELD = 50;
+  const FIELD = 100;
   const INSET = 4;
   const MAX_SHIP_SPEED = 3;
   const MAX_WIND = 2;

@@ -94,7 +94,7 @@
       <h1>Vector Fleet!</h1>
       <p class="round-line">Round ${state.round} · t = <span id="clock">${state.simTime.toFixed(2)}</span> s</p>
       ${banner}
-      <p class="constants-line"><b>g</b> 9.80 m/s² · <b>Muzzle</b> 28.00 m/s</p>
+      <p class="constants-line"><b>g</b> 9.80 m/s² · <b>Muzzle</b> ${P.MUZZLE.toFixed(2)} m/s</p>
       <p class="angles">0° = +x (right), 90° = +y (up)</p>
       <div class="vector-block">
         <span>Wind</span>

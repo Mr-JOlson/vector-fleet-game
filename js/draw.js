@@ -3,19 +3,21 @@
 
   function makeView(canvas, cssWidth, cssHeight) {
     const px = canvas.width / Math.max(cssWidth, 1);
-    const marginLeft = 52 * px;
-    const marginRight = 28 * px;
-    const marginTop = 18 * px;
-    const marginBottom = 34 * px;
+    const field = (typeof VectorFleetPhysics !== "undefined" && VectorFleetPhysics.FIELD) || 100;
+    const marginLeft = 64 * px;
+    const marginRight = 36 * px;
+    const marginTop = 22 * px;
+    const marginBottom = 36 * px;
     const size = Math.min(
       canvas.width - marginLeft - marginRight,
       canvas.height - marginTop - marginBottom
     );
     const left = marginLeft + (canvas.width - marginLeft - marginRight - size) / 2;
     const top = marginTop + (canvas.height - marginTop - marginBottom - size) / 2;
-    const scale = size / 100;
+    const scale = size / (field * 2);
     return {
       px,
+      field,
       size,
       scale,
       left,
@@ -45,10 +47,11 @@
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(view.left, view.top, view.size, view.size);
 
+    const field = view.field;
     ctx.lineWidth = 1.25 * px;
     ctx.strokeStyle = "#000000";
     ctx.beginPath();
-    for (let meter = -50; meter <= 50; meter += 10) {
+    for (let meter = -field; meter <= field; meter += 10) {
       const vertical = worldToScreen(view, meter, 0, 0).x;
       const horizontal = worldToScreen(view, 0, meter, 0).y;
       ctx.moveTo(vertical, view.top);
@@ -76,13 +79,13 @@
     ctx.font = `600 ${Math.round(13 * px)}px "Segoe UI", "Avenir Next", sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
-    for (let meter = -50; meter <= 50; meter += 10) {
+    for (let meter = -field; meter <= field; meter += 20) {
       const x = worldToScreen(view, meter, 0, 0).x;
       ctx.fillText(String(meter), x, view.top + view.size + 6 * px);
     }
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
-    for (let meter = -50; meter <= 50; meter += 10) {
+    for (let meter = -field; meter <= field; meter += 20) {
       const y = worldToScreen(view, 0, meter, 0).y;
       ctx.fillText(String(meter), view.left - 8 * px, y);
     }
@@ -134,13 +137,13 @@
   }
 
   function drawShip(ctx, view, ship, x, y, hpText, flashed, labelAbove) {
+    const px = view.px;
     const screen = worldToScreen(view, x, y, 0);
-    const radius = 2.35 * view.scale;
+    const radius = Math.max(2.35 * view.scale, 9 * px);
     const speed = Math.hypot(ship.vx, ship.vy);
     const angle = speed > 0.02
       ? Math.atan2(ship.vy, ship.vx)
       : (ship.direction * Math.PI) / 180;
-    const px = view.px;
 
     ctx.save();
     ctx.translate(screen.x, screen.y);
@@ -301,7 +304,7 @@
         pos.y,
         hpTextFor(ship).toFixed(1),
         flashed,
-        pos.y < -36
+        pos.y < -80
       );
       ctx.restore();
     }
