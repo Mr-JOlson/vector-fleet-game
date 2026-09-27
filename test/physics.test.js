@@ -125,17 +125,23 @@ test("the hit window is 0.01 m and a shell does not hit its own ship", () => {
   assert.equal(self.length, 0);
 });
 
-test("ship motion does not move the shell, and a surface shot can hit", () => {
+test("the shell carries the shooter's velocity, and a surface shot can hit", () => {
   const wind = { speed: 0, direction: 0 };
-  const ships = [
+  const flight = P.flightTime(90);
+  const carried = [
     ship({ id: "red", vx: 3, vy: 0, speed: 3, direction: 0 }),
-    ship({ id: "blue", x: 0, y: 0.0, vx: 0, vy: 0 })
+    ship({ id: "blue", x: 3 * flight, y: 0, vx: 0, vy: 0 })
   ];
-  ships[1].x = 0;
-  const vertical = P.detectHits(ships, wind, { red: { elevation: 90, direction: 45 } });
+  const vertical = P.detectHits(carried, wind, { red: { elevation: 90, direction: 45 } });
   assert.equal(vertical.length, 1);
-  assert.ok(Math.abs(vertical[0].x) < 1e-6);
+  assert.ok(Math.abs(vertical[0].x - 3 * flight) < 1e-6);
   assert.ok(Math.abs(vertical[0].y) < 1e-6);
+
+  const leftBehind = [
+    ship({ id: "red", vx: 3, vy: 0 }),
+    ship({ id: "blue", x: 0, y: 0, vx: 0, vy: 0 })
+  ];
+  assert.equal(P.detectHits(leftBehind, wind, { red: { elevation: 90, direction: 0 } }).length, 0);
 
   const skimming = [
     ship({ id: "red" }),
@@ -255,6 +261,19 @@ test("a solved moving-target shot lands inside the hit window", () => {
     assert.equal(hits.length, 1, JSON.stringify(shot));
     assert.ok(hits[0].t <= P.ROUND_TIME);
   }
+});
+
+test("a spreadsheet-style solution hits when the shell carries ship velocity", () => {
+  const wind = { speed: 1, direction: 0 };
+  const ships = [
+    ship({ id: "red", x: 0, y: 0, vx: 2, vy: 0.5 }),
+    ship({ id: "blue", x: 30, y: 16, vx: 0.5, vy: 1 })
+  ];
+  const hits = P.detectHits(ships, wind, {
+    red: { elevation: 11.7, direction: 31.46 }
+  });
+  assert.equal(hits.length, 1);
+  assert.equal(hits[0].targetId, "blue");
 });
 
 function solveShot(origin, targetPos, targetVel, wind) {

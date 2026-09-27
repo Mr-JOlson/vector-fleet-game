@@ -6,8 +6,8 @@
  *
  * Each ship's displayed vector is its heading, before current.
  * Actual ship velocity = heading + current.
- * A shell's horizontal velocity = muzzle vector + wind.
- * The muzzle speed is 28 m/s and does not include the ship's own velocity.
+ * A shell's horizontal velocity = muzzle vector + the ship's actual velocity + wind.
+ * The muzzle speed is 28 m/s, relative to the ship.
  * Elevation is the angle above the horizontal.
  * z = (v sin α) t − ½ g t², with g = 9.80 m/s².
  * An elevated shell returns to the water at t = 2 v sin α / g.
@@ -85,14 +85,15 @@
     return { x: heading.x + drift.x, y: heading.y + drift.y };
   }
 
-  function projectileVelocity(elevationDeg, directionDeg, wind) {
+  function projectileVelocity(elevationDeg, directionDeg, wind, shipVelocity) {
     const elev = (elevationDeg * Math.PI) / 180;
     const dir = (directionDeg * Math.PI) / 180;
     const horizontal = MUZZLE * Math.cos(elev);
     const drift = components(wind.speed, wind.direction);
+    const ship = shipVelocity || { x: 0, y: 0 };
     return {
-      x: horizontal * Math.cos(dir) + drift.x,
-      y: horizontal * Math.sin(dir) + drift.y,
+      x: horizontal * Math.cos(dir) + drift.x + (ship.x || 0),
+      y: horizontal * Math.sin(dir) + drift.y + (ship.y || 0),
       z: MUZZLE * Math.sin(elev)
     };
   }
@@ -158,7 +159,10 @@
     for (const shooter of alive) {
       const command = commands[shooter.id];
       if (!command) continue;
-      const vel = projectileVelocity(command.elevation, command.direction, wind);
+      const vel = projectileVelocity(command.elevation, command.direction, wind, {
+        x: shooter.vx,
+        y: shooter.vy
+      });
       const origin = { x: shooter.x, y: shooter.y };
       if (command.elevation <= 0) {
         let best = null;

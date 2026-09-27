@@ -104,7 +104,7 @@
         <span>Current</span>
         <strong>${formatVector(state.current.speed, state.current.direction)} m/s</strong>
       </div>
-      <p class="notes">Path = velocity + current. Shell = muzzle + wind. Hit within 0.01 m. Keep extra digits in the angles. Blank boxes do not fire.</p>
+      <p class="notes">Path = heading + current. Shell = muzzle + that velocity + wind. Hit within 0.01 m. Keep extra digits in the angles. Blank boxes do not fire.</p>
       ${log}
       ${rows}
     `;
@@ -209,7 +209,10 @@
   function buildShots(commands) {
     return state.ships.filter((ship) => ship.alive && commands[ship.id]).map((ship) => {
       const command = commands[ship.id];
-      const vel = P.projectileVelocity(command.elevation, command.direction, state.wind);
+      const vel = P.projectileVelocity(command.elevation, command.direction, state.wind, {
+        x: ship.vx,
+        y: ship.vy
+      });
       const ownHits = state.hits.filter((hit) => hit.shooterId === ship.id);
       let endTime;
       if (command.elevation <= 0) endTime = ownHits.length ? ownHits[0].t : P.ROUND_TIME;

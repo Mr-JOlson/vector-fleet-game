@@ -52,8 +52,8 @@ Shell, with elevation α and direction φ:
 
 ```
 v_horizontal = 28 cos α
-v_x = v_horizontal cos φ + v_wind,x
-v_y = v_horizontal sin φ + v_wind,y
+v_x = v_horizontal cos φ + v_ship,x + v_wind,x
+v_y = v_horizontal sin φ + v_ship,y + v_wind,y
 v_z = 28 sin α
 z(t) = v_z t − ½ (9.80) t²
 ```
@@ -90,9 +90,9 @@ The hit window is one centimeter. That is about a hundredth of a degree on a lon
 
 Use the hundredths printed on the board as the inputs. After that, keep full calculator precision through the components and the time. Rounding a component to the hundredth, then multiplying by several seconds, can move the landing by about 2 cm.
 
-`g = 9.80 m/s²`.
+`g = 9.8 m/s²`. Half of that, 4.9, is the number in the time formula on the class spreadsheet.
 
-The shell’s horizontal velocity is the muzzle vector plus the wind. It does not include the ship’s own velocity. Current is added only to the ships. The command-line solver in the separate `vector-fleet` repository uses a different setup (g = 9.81, and the firing ship’s velocity is added to the shell). Use this board’s animation as the check for this game.
+The shell carries the ship’s actual velocity, heading plus current, and the wind is added as well. On the spreadsheet, your movement and the wind are entered as negative components because those velocities are already in the shell. The separate `vector-fleet` command-line solver uses g = 9.81. This board uses 9.8, the same value as the spreadsheet.
 
 ## Local setup
 
