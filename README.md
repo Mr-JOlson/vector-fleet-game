@@ -92,7 +92,9 @@ Use the hundredths printed on the board as the inputs. After that, keep full cal
 
 `g = 9.8 m/s²`. Half of that, 4.9, is the number in the time formula on the class spreadsheet.
 
-The shell carries the ship’s actual velocity, heading plus current, and the wind is added as well. On the spreadsheet, your movement and the wind are entered as negative components because those velocities are already in the shell. The separate `vector-fleet` command-line solver uses g = 9.81. This board uses 9.8, the same value as the spreadsheet.
+The shell carries the ship’s actual velocity, heading plus current, and the wind is added as well. On the class calculation sheet, your movement and the wind are entered as the opposite components because those velocities are already in the shell. The separate `vector-fleet` command-line solver uses g = 9.81. This board uses 9.8, the same value as the spreadsheet.
+
+The student steps are in `Vector-Fleet-Firing-Angles.docx`. One pass of that correction, which is all the old strategy sheet did before checking the solver, usually misses by about 0.2 m and sometimes by more than 1 m. The 0.01 m hit window needs the time from the new elevation to be fed back through the correction until the time stops changing.
 
 ## Local setup
 
