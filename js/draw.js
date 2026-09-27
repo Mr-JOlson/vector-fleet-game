@@ -139,7 +139,7 @@
   function drawShip(ctx, view, ship, x, y, hpText, flashed, labelAbove) {
     const px = view.px;
     const screen = worldToScreen(view, x, y, 0);
-    const radius = Math.max(2.35 * view.scale, 9 * px);
+    const radius = 1.5 * Math.max(2.35 * view.scale, 9 * px);
     const speed = Math.hypot(ship.vx, ship.vy);
     const angle = speed > 0.02
       ? Math.atan2(ship.vy, ship.vx)
