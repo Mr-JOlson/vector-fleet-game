@@ -24,7 +24,7 @@ Leave both boxes blank and that ship still sails, but it does not fire. Press En
 - Ship headings are at most **3.00 m/s**. Current is at most **1.00 m/s** and is the same for every ship. Wind is at most **2.00 m/s** and affects shells only.
 - The program keeps every ship inside the grid and at least 6.5 m from the other ships.
 - Muzzle speed is **28.00 m/s**. It is relative to the water, not the ship.
-- A shell that meets the water within **0.01 m** of another ship is a hit. The shooter gains **0.50** hit points and the target loses **1.00**.
+- A shell that meets the water within **1 m** of another ship is a hit. The shooter gains **0.50** hit points and the target loses **1.00**.
 - Hit points change as each shell lands. A ship leaves the game after the round if its hit points are **0 or below**. Shells already in the air still count, so a ship that is hit and also scores on a later shell keeps the net result.
 - When one ship is left, it wins. **New Fleet** starts a fresh match.
 
@@ -64,7 +64,7 @@ An elevated shell returns to the water at
 t = 2 (28 sin α) / 9.80
 ```
 
-and its map position at that time is `(x0 + v_x t, y0 + v_y t)`. A hit means that point is within 0.01 m of the target's position at the same t. Elevation 0 stays on the water for the whole 10 s.
+and its map position at that time is `(x0 + v_x t, y0 + v_y t)`. A hit means that point is within 1 m of the target's position at the same t. Elevation 0 stays on the water for the whole 10 s.
 
 On the map, the dashed shadow is the shell's true map position. The curve above it is height, drawn so the parabola is visible. Do not measure range off the curve.
 
@@ -86,15 +86,15 @@ Red becomes 5.50. Blue becomes 4.00. An elevation of 14° falls short and misses
 
 ## Precision
 
-The hit window is one centimeter. That is about a hundredth of a degree on a long shot, and rounding an otherwise correct angle to the hundredth can miss. Enter the calculator's angle with more than two decimal places.
+The hit window is 1 m. A correct first pass of the class procedure usually lands inside it: in random rounds, about 9 in 10 did, and the typical miss was about 0.16 m. About 1 in 10 correct first passes still miss, mostly when the ships are moving quickly and the time guess is poor. A second pass of the correction covers most of those.
 
-Use the hundredths printed on the board as the inputs. After that, keep full calculator precision through the components and the time. Rounding a component to the hundredth, then multiplying by several seconds, can move the landing by about 2 cm.
+Angles kept to the hundredth of a degree are fine inside this window.
 
 `g = 9.8 m/s²`. Half of that, 4.9, is the number in the time formula on the class spreadsheet.
 
 The shell carries the ship’s actual velocity, heading plus current, and the wind is added as well. On the class calculation sheet, your movement and the wind are entered as the opposite components because those velocities are already in the shell. The separate `vector-fleet` command-line solver uses g = 9.81. This board uses 9.8, the same value as the spreadsheet.
 
-The student steps are in `Vector-Fleet-Firing-Angles.docx`. One pass of that correction, which is all the old strategy sheet did before checking the solver, usually misses by about 0.2 m and sometimes by more than 1 m. The 0.01 m hit window needs the time from the new elevation to be fed back through the correction until the time stops changing.
+The student steps are in `Vector-Fleet-Firing-Angles.docx`.
 
 ## Local setup
 

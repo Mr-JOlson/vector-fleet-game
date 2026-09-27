@@ -11,7 +11,8 @@
  * Elevation is the angle above the horizontal.
  * z = (v sin α) t − ½ g t², with g = 9.80 m/s².
  * An elevated shell returns to the water at t = 2 v sin α / g.
- * A hit is that waterline meeting within 0.01 m of another ship.
+ * A hit is that waterline meeting within 1 m of another ship.
+ * One careful pass of the class procedure usually lands inside that window.
  * A 0° elevation skims the water and can hit along its path.
  */
 (function (root, factory) {
@@ -25,7 +26,7 @@
   const G = 9.8;
   const MUZZLE = 28;
   const ROUND_TIME = 10;
-  const HIT_RADIUS = 0.01;
+  const HIT_RADIUS = 1;
   const FIELD = 50;
   const INSET = 4;
   const MAX_SHIP_SPEED = 3;

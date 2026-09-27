@@ -99,21 +99,21 @@ test("the classic 40 m shot hits Blue and a short shot misses", () => {
   assert.equal(miss.length, 0);
 });
 
-test("the hit window is 0.01 m and a shell does not hit its own ship", () => {
+test("the hit window is 1 m and a shell does not hit its own ship", () => {
   const wind = { speed: 0, direction: 0 };
   const velocity = P.projectileVelocity(15, 0, wind);
   const flight = P.flightTime(15);
   const impact = P.projectilePosition({ x: 0, y: 0 }, velocity, flight);
   const onEdge = [
     ship({ id: "red" }),
-    ship({ id: "blue", x: impact.x + 0.01, y: impact.y })
+    ship({ id: "blue", x: impact.x + P.HIT_RADIUS, y: impact.y })
   ];
   const edgeHits = P.detectHits(onEdge, wind, { red: { elevation: 15, direction: 0 } });
   assert.equal(edgeHits.length, 1);
 
   const outside = [
     ship({ id: "red" }),
-    ship({ id: "blue", x: impact.x + 0.02, y: impact.y })
+    ship({ id: "blue", x: impact.x + P.HIT_RADIUS + 0.05, y: impact.y })
   ];
   assert.equal(
     P.detectHits(outside, wind, { red: { elevation: 15, direction: 0 } }).length,

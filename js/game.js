@@ -104,7 +104,7 @@
         <span>Current</span>
         <strong>${formatVector(state.current.speed, state.current.direction)} m/s</strong>
       </div>
-      <p class="notes">Path = heading + current. Shell = muzzle + that velocity + wind. Hit within 0.01 m. Keep extra digits in the angles. Blank boxes do not fire.</p>
+      <p class="notes">Path = heading + current. Shell = muzzle + that velocity + wind. Hit within 1 m. Blank boxes do not fire.</p>
       ${log}
       ${rows}
     `;
